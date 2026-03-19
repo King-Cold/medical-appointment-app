@@ -76,8 +76,6 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         //Validar que se inserte bein y que se excluya la fila que editamos
-
-      //Validar que se inserte bien y que excluya la fila que se edita
 $request->validate([
 'name' => 'required|unique:roles,name,' . $role->id,
 ]);
@@ -89,8 +87,8 @@ $role->update( [
 
     session()->flash('swal',[
     'icon' => 'success',
-    'title' => 'Rol creado correctamente',
-    'text' => 'El rol ha sido creado correctamente'
+    'title' => 'Rol editado correctamente',
+    'text' => 'El rol ha sido editado correctamente'
     ]);
 
     //Redireccionará a la misma vista de editar
@@ -109,7 +107,7 @@ return redirect(route('admin.roles.edit', $role));
 
     session()->flash('swal',[
     'icon' => 'success',
-    'title' => 'Rol creado correctamente',
+    'title' => 'Rol eliminado correctamente',
     'text' => 'El rol ha sido eliminado correctamente'
     ]);
 

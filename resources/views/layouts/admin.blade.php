@@ -44,6 +44,7 @@
 
 @stack('modals')
 
+{{-- Mostrar SweetAlert --}}
 @if (session('swal'))
 <script>
     Swal.fire(@json(session('swal')));
