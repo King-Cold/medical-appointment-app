@@ -36,12 +36,18 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
+
+            //Nuevo campo
+            'id_number'=>strtoupper($this->faker->bothify('ID-######')),
+            'phone'=>$this->faker->numerify('9999999999'),//10 dígitos numéricos
+            'address'=>$this->faker->streetAddress(),
         ];
     }
 
     /**
      * Indicate that the model's email address should be unverified.
      */
+
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [
