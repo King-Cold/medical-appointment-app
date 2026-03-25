@@ -15,9 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        
         // Lllamar a los seeders creados
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(BloodTypeSeeder::class);
 
 
         //Crear usuario de prueba cada vex que se ejecuten las migraciones
