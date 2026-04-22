@@ -1,5 +1,5 @@
 <x-admin-layout 
-    title="Roles" 
+    title="Editar Paciente" 
     :breadcrumbs="[
         [
             'name' => 'Dashboard',
@@ -18,12 +18,12 @@
         @csrf
         @method('PUT')
         {{-- Encabezado con foto de perfil y acciones --}}
-        <x-wire-card>
+        <x-wire-card class="mb-8">
             <div class=" lg:flex  lg:justify-between lg:items-center">
                 <div class="flex items-center">
                 <img src="{{ $patient->user->profile_photo_url}}" alt="{{$patient->user-> name }}" class="w-20 h-20 rounded-full object-cover">
                 <div>
-                    <p class="text-2x1 font-bold text-gray-900 ml-5">{{ $patient->user->name }}</p>
+                    <p class="text-2xl font-bold text-gray-900 ml-5">{{ $patient->user->name }}</p>
                 </div>
                 </div>
                 <div class="flex space-x-3 mt-6 lg:mt-0">
@@ -103,17 +103,18 @@
     {{-- Contenido:Tab 1: Datos Personales --}}
     <div x-show="tab === 'datos-personales'">
         <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg shadow-sm">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
             {{-- Lado Izquierdo: Informacion --}}
             <div class="flex items-start">
                 <div  class="flex-shrink-0">
                     <i class="fa-solid fa-user-gear text-blue-500 text-xl mt-1"></i>
-                    <div class="ml-3">
-                        <h3 class="text-sm font-bold text-blue-800">Edicion de cuenta de usuario</h3>
-                        <div class="mt-1 text-sm text-blue-600"> <p>La <strong>información de acceso</strong>(Nombre, Email y Contraseña debe gestionarse desde la cuenta del usuario asociada:)</p>
-                    </div>
                 </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-bold text-blue-800">Edicion de cuenta de usuario</h3>
+                    <div class="mt-1 text-sm text-blue-600"> <p>La <strong>información de acceso</strong>(Nombre, Email y Contraseña debe gestionarse desde la cuenta del usuario asociada:)</p>
+                </div>
+            </div>
             </div>
                    {{-- Lado Derecho: Acciones --}}
                    <div class="flex-shrink-0">
@@ -124,11 +125,77 @@
                    </div>
                 </div>
             </div>
+            <div class="grid lg:grid-cols-2 gap-4">
+                <div>
+                    <span class="text-gray-500  font-semibold">Telefono: </span>
+                    <span class="text-gray-900  text-sm ml-1">{{ $patient->user->phone }} </span>
+                </div>
+                <div>
+                    <span class="text-gray-500  font-semibold">Email: </span>
+                    <span class="text-gray-900  text-sm ml-1">{{ $patient->user->email }} </span>
+                </div>
+                <div>
+                    <span class="text-gray-500  font-semibold">Dirección: </span>
+                    <span class="text-gray-900  text-sm ml-1">{{ $patient->user->address }} </span>
+                </div>
             </div>
-        
+            </div>
+
+    {{-- Contenido:Tab 2: Antecedentes --}}
+    <div x-show="tab === 'antecedentes'" style="display: none;">
+        <div class="grid lg:grid-cols-2 gap-4">
+                <div>
+                    <x-wire-textarea label="Alergias conocidas" name="allergies">
+                        {{ old('allergies', $patient->allergies) }}
+
+                    </x-wire-textarea>
+                </div>
+                <div>
+                    <x-wire-textarea label="Enfermedades crónicas" name="chronic_conditions">
+                        {{ old('chronic_conditions', $patient->chronic_conditions) }}
+
+                    </x-wire-textarea>
+                </div>
+                <div>
+                    <x-wire-textarea label="Antecedentes familiares" name="family_history">
+                        {{ old('family_history', $patient->family_history) }}
+
+                    </x-wire-textarea>
+                </div>
+                <div>
+                    <x-wire-textarea label="Antecedentes quirúrgicos" name="surgical_history">
+                        {{ old('surgical_history', $patient->surgical_history) }}
+
+                    </x-wire-textarea>
+                </div>
+        </div>
+    </div>
+
+   {{-- Contenido:Tab 3: Informacion General --}}
+    <div x-show="tab == 'informacion-general'" style="display:none">
+        <x-wire-native-select label="Tipo de Sangre" class="mb-4" name="blood_type">
+            <option value="">Selecciona el tipo de sangre</option>
+            @foreach ($bloodTypes as $bloodType)
+                <option value="{{ $bloodType->id }}" @selected (old('blood_type_id', $patient->blood_type_id) == $bloodType->id)>{{ $bloodType->name }}</option>
+            @endforeach
+           
+        </x-wire-native-select>
+    <x-wire-textarea label="Observaciones" name="observations">
+            {{ old('observations', $patient->observations) }}
+        </x-wire-textarea>
+        </div>
+         {{-- Contenido:Tab 4: Informacion General --}}
+    <div x-show="tab == 'contacto-emergencia'" style="display:none">
+        <div class="space-y-4">
+            <x-wire-input label="Nombre del contacto" name="emergency_contact_name" value="{{ old('emergency_contact_name', $patient->emergency_contact_name) }}" />
+            <x-wire-phone label="Teléfono del contacto" name="emergency_contact_phone" mask="(###) ###-####" placeholder="(999) 999-9999" value="{{ old('emergency_contact_phone', $patient->emergency_contact_phone) }}" />
+            <x-wire-input label="Relación con el paciente" name="emergency_contact_relationship" placeholder="Ej: Padre, Madre, Hermano(a), etc." value="{{ old('emergency_contact_relationship', $patient->emergency_contact_relationship) }}" />
+        </div>
+    </div>
 
 
     </div>
+
 </div>
 </x-wire-card>
     </form>

@@ -284,5 +284,16 @@ return [
         'winner'                   => 'ganador',
         'work'                     => 'trabajo',
         'year'                     => 'año',
+        //Personalizados
+        'allergies'                => 'alergias',
+        'chronic_conditions'       => 'condiciones crónicas',
+        'family_history'           => 'historial familiar',
+        'surgical_history'         => 'historial quirúrgico',
+        'observations'             => 'observaciones',
+        'emergency_contact_name'   => 'nombre del contacto de emergencia',
+        'emergency_contact_phone'  => 'teléfono del contacto de emergencia',
+        'emergency_contact_relationship' => 'relación del contacto de emergencia',
+        'blood_type_id'            => 'tipo de sangre',
+        
     ],
 ];
