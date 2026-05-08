@@ -15,6 +15,7 @@ protected $fillable = [
         'emergency_contact_name',
         'emergency_contact_phone',
         'emergency_contact_relationship',
+        'blood_type_id',
     ];
     //relacion uno a uno inversa
     public function user()

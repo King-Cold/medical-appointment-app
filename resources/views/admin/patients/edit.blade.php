@@ -19,11 +19,17 @@
     }
 @endphp
 
-<x-admin-layout title="Editar Paciente" :breadcrumbs="[
-    ['name' => 'Dashboard', 'href' => route('admin.dashboard')],
-    ['name' => 'Pacientes', 'href' => route('admin.roles.index')],
-    ['name' => 'Editar'],
-]">
+<x-admin-layout title="Editar Paciente">
+
+    <div class="mb-4">
+        <nav class="flex text-sm text-gray-500" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li><a href="{{ route('admin.dashboard') }}" class="hover:text-blue-600">Dashboard</a></li>
+                <li><i class="fa-solid fa-chevron-right mx-2 text-xs text-gray-400"></i> <a href="{{ route('admin.patients.index') }}" class="hover:text-blue-600">Pacientes</a></li>
+                <li class="text-gray-900 font-semibold"><i class="fa-solid fa-chevron-right mx-2 text-xs text-gray-400"></i> Editar</li>
+            </ol>
+        </nav>
+    </div>
 
     <form action="{{ route('admin.patients.update', $patient) }}" method="POST">
         @csrf

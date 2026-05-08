@@ -33,6 +33,18 @@ $links=[
    'active' => request()->routeIs('admin.patients.*'),
 
    ],
+   [
+   'name' => 'Doctores',
+   'icon' => 'fa-solid fa-user-doctor',
+   'href' => route('admin.doctors.index'),
+   'active' => request()->routeIs('admin.doctors.*'),
+   ],
+   [
+   'name' => 'Citas Médicas',
+   'icon' => 'fa-solid fa-calendar-check',
+   'href' => route('admin.appointments.index'),
+   'active' => request()->routeIs('appointments.*')
+   ],
 ];
 
 @endphp
@@ -42,7 +54,7 @@ $links=[
    <div class="h-full px-3 py-4 overflow-y-auto bg-neutral-primary-soft border-e border-default">
       <a href="/" class="flex items-center ps-2.5 mb-5">
          <img src={{ asset("images/ejemplo.png")}} class="h-6 me-3" alt="Una foto" />
-         <span class="self-center text-lg text-heading font-semibold whitespace-nowrap">Rodrigo Chi</span>
+         <span class="self-center text-lg text-heading font-semibold whitespace-nowrap">Healthify</span>
       </a>
       <ul class="space-y-2 font-medium">
          @foreach ( $links as $link)

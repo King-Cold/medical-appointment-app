@@ -1,19 +1,15 @@
-<x-admin-layout 
-    title="Usuarios" 
-    :breadcrumbs="[
-        [
-            'name' => 'Dashboard',
-            'href' => route('admin.dashboard'),
-        ],
-        [
-            'name' => 'Usuarios',
-            'href' => route('admin.users.index'),
-        ],
-        [
-            'name' => 'Crear',
-        ],
-    ]"
->
+<x-admin-layout title="Usuarios">
+
+<div class="mb-4">
+    <nav class="flex text-sm text-gray-500" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li><a href="{{ route('admin.dashboard') }}" class="hover:text-blue-600">Dashboard</a></li>
+            <li><i class="fa-solid fa-chevron-right mx-2 text-xs text-gray-400"></i> <a href="{{ route('admin.users.index') }}" class="hover:text-blue-600">Usuarios</a></li>
+            <li class="text-gray-900 font-semibold"><i class="fa-solid fa-chevron-right mx-2 text-xs text-gray-400"></i> Crear</li>
+        </ol>
+    </nav>
+</div>
+
 <x-wire-card>
     <x-validation-errors class="mb-4"/>
   <form action="{{ route('admin.users.store') }}" method="POST">

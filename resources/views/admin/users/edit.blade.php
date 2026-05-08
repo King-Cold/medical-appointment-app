@@ -1,19 +1,15 @@
-<x-admin-layout 
-    title="Usuarios" 
-    :breadcrumbs="[
-        [
-            'name' => 'Dashboard',
-            'href' => route('admin.dashboard'),
-        ],
-        [
-            'name' => 'Usuarios',
-            'href' => route('admin.users.index'),
-        ],
-        [
-            'name' => 'Crear',
-        ],
-    ]"
->
+<x-admin-layout title="Usuarios">
+
+<div class="mb-4">
+    <nav class="flex text-sm text-gray-500" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li><a href="{{ route('admin.dashboard') }}" class="hover:text-blue-600">Dashboard</a></li>
+            <li><i class="fa-solid fa-chevron-right mx-2 text-xs text-gray-400"></i> <a href="{{ route('admin.users.index') }}" class="hover:text-blue-600">Usuarios</a></li>
+            <li class="text-gray-900 font-semibold"><i class="fa-solid fa-chevron-right mx-2 text-xs text-gray-400"></i> Editar</li>
+        </ol>
+    </nav>
+</div>
+
 <x-wire-card>
     <x-validation-errors class="mb-4"/>
   <form action="{{ route('admin.users.update',$user->id) }}" method="POST">
@@ -26,7 +22,6 @@
 <x-wire-input type="password" label="Contraseña" name="password" placeholder="Minimo 8 caracteres" autocomplete="new-password"></x-wire-input>
 
 <x-wire-input type="password" label="Confirmar contraseña" name="password_confirmation" placeholder="Repita la contraseña" autocomplete="new-password"></x-wire-input>
-
 <x-wire-input label="Número de ID" name="id_number" placeholder="Número de ID del usuario" :value=" old('id_number',$user->id_number)" required autocomplete="off" inputmode="numeric"></x-wire-input>
 <x-wire-input label="Teléfono" name="phone" placeholder="Teléfono del usuario" :value=" old('phone',$user->phone)" required autocomplete="tel" inputmode="tel"></x-wire-input>
 
