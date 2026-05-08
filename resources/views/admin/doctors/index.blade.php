@@ -85,10 +85,10 @@
                 @foreach ($doctors as $doctor)
                 <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200">
                     <td class="px-4 py-4 font-semibold text-gray-900">{{ $doctor->id }}</td>
-                    <td class="px-4 py-4 text-gray-900">{{ $doctor->name }}</td>
-                    <td class="px-4 py-4">{{ $doctor->email }}</td>
-                    <td class="px-4 py-4">{{ $doctor->dni }}</td>
-                    <td class="px-4 py-4">{{ $doctor->phone }}</td>
+                    <td class="px-4 py-4 text-gray-900">{{ $doctor->user->name ?? 'N/A' }}</td>
+                    <td class="px-4 py-4">{{ $doctor->user->email ?? 'N/A' }}</td>
+                    <td class="px-4 py-4">{{ $doctor->user->id_number ?? 'N/A' }}</td>
+                    <td class="px-4 py-4">{{ $doctor->user->phone ?? 'N/A' }}</td>
                     <td class="px-4 py-4">{{ $doctor->specialty }}</td>
                     <td class="px-4 py-4 flex items-center space-x-2">
                         <a href="{{ route('admin.doctors.edit', $doctor->id) }}" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded text-sm px-2.5 py-1.5 text-center inline-flex items-center shadow-sm">

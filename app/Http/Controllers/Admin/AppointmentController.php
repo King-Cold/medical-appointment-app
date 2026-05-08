@@ -39,4 +39,9 @@ class AppointmentController extends Controller
 
         return redirect()->route('admin.appointments.index')->with('success', 'Cita creada exitosamente.');
     }
+
+    public function edit(Appointment $appointment)
+    {
+        return view('admin.appointments.edit', compact('appointment'));
+    }
 }

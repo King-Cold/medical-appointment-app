@@ -4,10 +4,10 @@
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
                 <li><a href="{{ route('admin.dashboard') }}" class="hover:text-blue-600">Dashboard</a></li>
                 <li><i class="fa-solid fa-chevron-right mx-2 text-xs text-gray-400"></i> <a href="{{ route('admin.appointments.index') }}" class="hover:text-blue-600">Citas</a></li>
-                <li class="text-gray-900 font-semibold"><i class="fa-solid fa-chevron-right mx-2 text-xs text-gray-400"></i> Nuevo</li>
+                <li class="text-gray-900 font-semibold"><i class="fa-solid fa-chevron-right mx-2 text-xs text-gray-400"></i> {{ isset($appointment) ? 'Editar' : 'Nuevo' }}</li>
             </ol>
         </nav>
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Nuevo</h2>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">{{ isset($appointment) ? 'Editar Cita' : 'Nuevo' }}</h2>
 
         <form wire:submit.prevent="save">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -133,7 +133,7 @@
                             </div>
 
                             <button type="submit" class="w-full text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-3 transition shadow-md disabled:opacity-50" {{ !$selectedDoctorId || !$selectedTime ? 'disabled' : '' }}>
-                                Confirmar cita
+                                {{ isset($appointment) ? 'Actualizar cita' : 'Confirmar cita' }}
                             </button>
                             @if(!$selectedDoctorId || !$selectedTime)
                                 <p class="text-xs text-center text-gray-500 mt-2">Seleccione un doctor y horario primero</p>

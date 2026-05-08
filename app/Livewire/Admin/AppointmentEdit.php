@@ -3,12 +3,14 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
+use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Patient;
 use Carbon\Carbon;
 
-class AppointmentCreate extends Component
+class AppointmentEdit extends Component
 {
+    public Appointment $appointment;
     public $date;
     public $specialty = '';
     public $selectedDoctorId = null;
@@ -16,9 +18,15 @@ class AppointmentCreate extends Component
     public $patient_id = '';
     public $reason = '';
 
-    public function mount()
+    public function mount(Appointment $appointment)
     {
-        $this->date = date('Y-m-d');
+        $this->appointment = $appointment;
+        $this->date = $appointment->date->format('Y-m-d');
+        $this->selectedDoctorId = $appointment->doctor_id;
+        $this->selectedTime = $appointment->start_time;
+        $this->patient_id = $appointment->patient_id;
+        $this->reason = $appointment->reason;
+        $this->specialty = $appointment->doctor->specialty;
     }
 
     public function getDoctorsProperty()
@@ -29,7 +37,6 @@ class AppointmentCreate extends Component
             $query->where('specialty', $this->specialty);
         }
         
-        // Get day of week in Spanish (Lunes, Martes, etc.)
         $dayOfWeek = Carbon::parse($this->date)->locale('es')->dayName;
         $dayOfWeek = ucfirst($dayOfWeek);
 
@@ -40,7 +47,6 @@ class AppointmentCreate extends Component
             if (isset($schedule[$dayOfWeek])) {
                 foreach ($schedule[$dayOfWeek] as $interval => $isAvailable) {
                     if ($isAvailable) {
-                        // Extract start time from interval "08:00 - 08:15"
                         $startTime = explode(' - ', $interval)[0] . ':00';
                         $times[] = $startTime;
                     }
@@ -86,27 +92,24 @@ class AppointmentCreate extends Component
             'reason' => 'nullable|string',
         ]);
 
-        // Logic to save appointment
         $endTime = Carbon::parse($this->selectedTime)->addMinutes(15)->format('H:i:s');
-        
-        \App\Models\Appointment::create([
+
+        $this->appointment->update([
             'patient_id' => $this->patient_id,
             'doctor_id' => $this->selectedDoctorId,
             'date' => $this->date,
             'start_time' => $this->selectedTime,
             'end_time' => $endTime,
-            'duration' => 15,
             'reason' => $this->reason,
-            'status' => 1, // Programada
         ]);
         
-        session()->flash('success', 'Cita creada exitosamente.');
+        session()->flash('success', 'Cita actualizada exitosamente.');
         return redirect()->route('admin.appointments.index');
     }
 
     public function render()
     {
-        return view('livewire.admin.appointment-create', [
+        return view('livewire.admin.appointment-create', [ // Reuse the same view if possible or create a new one
             'doctors' => $this->doctors,
             'patients' => $this->patients,
             'specialties' => $this->specialties
