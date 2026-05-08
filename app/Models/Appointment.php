@@ -19,6 +19,9 @@ class Appointment extends Model
         'treatment',
         'notes',
         'prescriptions',
+        'notified_at',
+        'whatsapp_sent',
+        'reminder_sent_at',
     ];
 
     protected $casts = [

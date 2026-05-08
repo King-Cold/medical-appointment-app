@@ -17,7 +17,7 @@
         <p class="text-sm text-gray-500 mt-1">Registre los datos personales y de contacto del nuevo doctor.</p>
     </div>
     
-    <form action="#" method="POST" class="p-6 space-y-6">
+    <form action="{{ route('admin.doctors.store') }}" method="POST" class="p-6 space-y-6">
         @csrf
         
         <!-- Avatar / Photo -->

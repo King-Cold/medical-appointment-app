@@ -18,6 +18,36 @@ class DoctorController extends Controller
         return view('admin.doctors.create');
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'dni' => 'required|string|unique:users,id_number',
+            'phone' => 'nullable|string',
+            'specialty' => 'required|string',
+        ]);
+
+        \DB::transaction(function () use ($request) {
+            $user = \App\Models\User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => \Hash::make('password'), // Contraseña por defecto
+                'id_number' => $request->dni,
+                'phone' => $request->phone,
+            ]);
+
+            $user->assignRole('Doctor');
+
+            \App\Models\Doctor::create([
+                'user_id' => $user->id,
+                'specialty' => $request->specialty,
+            ]);
+        });
+
+        return redirect()->route('admin.doctors.index')->with('success', 'Doctor creado exitosamente.');
+    }
+
     public function schedule($id)
     {
         $days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
@@ -33,7 +63,7 @@ class DoctorController extends Controller
                     $endM = 0;
                     $endH++;
                 }
-                $end = str_pad($endH, 2, '0', STR_PAD_LEFT) . ':' . str_pad($endM, 2, '0', STR_PAD_LEFT);
+                $end = str_pad($endH, 2, '0', STR_PAD_LEFT) . ':' . str_pad($m + 15 == 60 ? '00' : str_pad($endM, 2, '0', STR_PAD_LEFT), 2, '0', STR_PAD_LEFT);
                 $intervals[] = "$start - $end";
             }
             $hours[$formattedHour] = $intervals;
@@ -46,5 +76,33 @@ class DoctorController extends Controller
     {
         $doctor = \App\Models\Doctor::with('user')->findOrFail($id);
         return view('admin.doctors.edit', compact('doctor'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $doctor = \App\Models\Doctor::findOrFail($id);
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $doctor->user_id,
+            'dni' => 'required|string|unique:users,id_number,' . $doctor->user_id,
+            'phone' => 'nullable|string',
+            'specialty' => 'required|string',
+        ]);
+
+        \DB::transaction(function () use ($request, $doctor) {
+            $doctor->user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'id_number' => $request->dni,
+                'phone' => $request->phone,
+            ]);
+
+            $doctor->update([
+                'specialty' => $request->specialty,
+            ]);
+        });
+
+        return redirect()->route('admin.doctors.index')->with('success', 'Doctor actualizado exitosamente.');
     }
 }

@@ -23,10 +23,8 @@ Route::resource('users', UserController::class);
 Route::resource('patients', PatientController::class);
 
 //Gestion de doctores
-Route::get('doctors', [\App\Http\Controllers\Admin\DoctorController::class, 'index'])->name('doctors.index');
-Route::get('doctors/create', [\App\Http\Controllers\Admin\DoctorController::class, 'create'])->name('doctors.create');
+Route::resource('doctors', \App\Http\Controllers\Admin\DoctorController::class);
 Route::get('doctors/{id}/horario', [\App\Http\Controllers\Admin\DoctorController::class, 'schedule'])->name('doctors.schedule');
-Route::get('doctors/{id}/edit', [\App\Http\Controllers\Admin\DoctorController::class, 'edit'])->name('doctors.edit');
 
 //Gestion de citas
 Route::resource('appointments', \App\Http\Controllers\Admin\AppointmentController::class);
